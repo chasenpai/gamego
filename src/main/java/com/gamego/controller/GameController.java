@@ -11,8 +11,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/game")
+@RequestMapping(value = "/games")
 public class GameController {
+
+    @GetMapping(value = "/admin/view")
+    public String gameForm(){
+        return "/game/gameForm";
+    }
+
+    @GetMapping(value = "/all/view")
+    public String gameForm2(){
+        return "/game/gameForm";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping(value = "/show1")
     public String gameInfo1(Model model){

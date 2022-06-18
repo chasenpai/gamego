@@ -8,6 +8,9 @@ import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -33,11 +36,19 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private LocalDateTime regDate;
+
+    private LocalDateTime updateDate;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY) //일대다 매핑, 지연 로딩 설정
+    private List<Comment> commentList = new ArrayList<>();
+
+
     //user 엔티티를 생성하는 메소드
     public static Member createUser(MemberDto memberDto, PasswordEncoder passwordEncoder){
         Member member = new Member();
         member.setEmail(memberDto.getEmail());
-        //스프링 시큐리티 설정 클래스의 BCryptPasswordEncoder Bean을 파라미터로 넘겨 비밀번호를 암호화한다
+        //스프링 시큐리티 설정 클래스의 BCryptPasswordEncoder Bean 을 파라미터로 넘겨 비밀번호를 암호화한다
         String password = passwordEncoder.encode(memberDto.getPassword());
         member.setPassword(password);
         member.setNickname(memberDto.getNickname());

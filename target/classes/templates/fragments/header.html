@@ -16,16 +16,25 @@
                         <a class="nav-link" sec:authorize="isAnonymous()" href="#">신작</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" sec:authorize="isAuthenticated()" href="#">신작</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" sec:authorize="isAnonymous()" href="#">랭킹</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="isAuthenticated()" href="#">랭킹</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" sec:authorize="isAnonymous()" href="#">리뷰</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="isAuthenticated()" href="#">리뷰</a>
+                    </li>
                     <li class="nav-item" sec:authorize="isAnonymous()">
-                        <a class="nav-link" href="members/login">로그인</a>
+                        <a class="nav-link" href="/members/login">로그인</a>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link" href="members/logout">로그아웃</a>
+                        <a class="nav-link" href="/members/logout">로그아웃</a>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <a class="nav-link" href="#">마이페이지</a>

@@ -25,8 +25,7 @@ public class Comment {
     @Column(nullable = false, length = 80)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY) //다대일 매핑, 지연 로딩 설정
-    @JoinColumn(name = "member_id")
+    @Column(nullable = false, length = 20)
     private String writer;
 
     @Lob

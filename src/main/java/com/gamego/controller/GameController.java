@@ -14,15 +14,13 @@ import java.util.List;
 @RequestMapping(value = "/games")
 public class GameController {
 
-    @GetMapping(value = "/admin/view")
-    public String gameForm(){
-        return "/game/gameForm";
+    @GetMapping(value = "/admin/create")
+    public String gameForm(Model model){
+        model.addAttribute("gameDto", new GameDto());
+        return "game/gameForm";
     }
 
-    @GetMapping(value = "/all/view")
-    public String gameForm2(){
-        return "/game/gameForm";
-    }
+
 
 
 

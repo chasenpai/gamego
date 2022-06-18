@@ -12,7 +12,8 @@ import java.util.List;
 
 @Entity //Game 클래스를 엔티티로 선언
 @Table(name = "game") //어떤 테이블과 매핑될지 이름을 지정
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class Game {
 
@@ -44,11 +45,11 @@ public class Game {
     @Enumerated(EnumType.STRING)
     private Released released; //출시 여부
 
-    private LocalDateTime regDate; //등록일
-    
-    private LocalDateTime updateDate; //수정일
 
     //일대다 매핑, 영속성 전이, 고아 객체 제거 설정, 지연 로딩 설정
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<GameImg> gameImgList = new ArrayList<>();
 }

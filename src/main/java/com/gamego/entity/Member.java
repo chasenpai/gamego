@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @Column(name = "member_id")
@@ -36,12 +36,8 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private LocalDateTime regDate;
-
-    private LocalDateTime updateDate;
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY) //일대다 매핑, 지연 로딩 설정
-    private List<Comment> commentList = new ArrayList<>();
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) //일대다 매핑, 지연 로딩 설정
+//    private List<Comment> commentList = new ArrayList<>();
 
 
     //user 엔티티를 생성하는 메소드
@@ -52,7 +48,7 @@ public class Member {
         String password = passwordEncoder.encode(memberDto.getPassword());
         member.setPassword(password);
         member.setNickname(memberDto.getNickname());
-        member.setRole(Role.USER);
+        member.setRole(Role.ADMIN);
         return member;
     }
 

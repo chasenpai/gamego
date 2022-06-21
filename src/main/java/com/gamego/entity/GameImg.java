@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "game_img")
 @Getter
 @Setter
-public class GameImg extends BaseEntity {
+public class GameImg extends BaseEntity{
 
     @Id
     @Column(name = "game_img_id")

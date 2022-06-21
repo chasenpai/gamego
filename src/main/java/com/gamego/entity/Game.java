@@ -1,12 +1,12 @@
 package com.gamego.entity;
 
 import com.gamego.constant.Released;
+import com.gamego.dto.GameDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +15,11 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Game {
+public class Game extends BaseEntity {
 
     @Id //기본키 설정
     @GeneratedValue(strategy = GenerationType.AUTO) //기본키 생성 전략을 자동으로
     @Column(name = "game_id")
-
     private Long id; //게임 코드
 
     @Column(nullable = false, length = 40) //NotNull 설정, 필드의 크기 지정
@@ -50,6 +49,14 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<GameImg> gameImgList = new ArrayList<>();
+
+    public void updateGame(GameDto gameDto){
+        this.gameTitle =  gameDto.getGameTitle();
+        this.developer = gameDto.getDeveloper();
+        this.genre = gameDto.getGenre();
+        this.platform = gameDto.getPlatform();
+        this.releaseDate = gameDto.getReleaseDate();
+        this.released = gameDto.getReleased();
+        this.gameDetail = gameDto.getGameDetail();
+    }
 }

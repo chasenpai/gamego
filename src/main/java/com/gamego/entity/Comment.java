@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @Column(name = "comment_id")

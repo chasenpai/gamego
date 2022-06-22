@@ -16,4 +16,6 @@ public class GameSearchDto {
 
     private String searchQuery = ""; //게임 검색
 
+    private String searchGenre = "";
+
 }

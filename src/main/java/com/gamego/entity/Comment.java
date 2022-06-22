@@ -22,12 +22,6 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @Column(nullable = false, length = 80)
-    private String title;
-
-    @Column(nullable = false, length = 20)
-    private String writer;
-
     @Lob
     @Column(nullable = false)
     private String content;

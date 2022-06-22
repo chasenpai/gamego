@@ -31,6 +31,11 @@
                 <option value="gameTitle">게임제목</option>
                 <option value="createdBy">등록자</option>
             </select>
+            <select style="width:200px" class="form-select form-select-lg mb-3" th:field="*{searchGenre}">
+                <option value="전체">장르 전체</option>
+                <option value="오픈월드">오픈월드</option>
+                <option value="액션">액션</option>
+            </select>
             <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
             <button id="searchBtn" type="submit" class="btn btn-dark">검색</button>
         </div>
@@ -41,6 +46,7 @@
                 <th scope="col">게임코드</th>
                 <th scope="col">게임제목</th>
                 <th scope="col">개발사</th>
+                <th scope="col">출시여부</th>
                 <th scope="col">등록자</th>
                 <th scope="col">등록일</th>
             </tr>
@@ -52,7 +58,7 @@
                     <a th:href="'/games/admin/' + ${game.id}" th:text="${game.gameTitle}"></a>
                 </td>
                 <td th:text="${game.developer}"></td>
-               <!-- <td th:text="${game.released == T(com.gamego.constant.Released).RELEASED} ? '출시' : '미출시'"></td>-->
+                <td th:text="${game.released == T(com.gamego.constant.Released).RELEASED} ? '출시' : '미출시'"></td>
                 <td th:text="${game.createdBy}"></td>
                 <td th:text="${game.regDate}"></td>
             </tr>
@@ -97,11 +103,13 @@
             var searchReleased = $("#searchReleased").val();
             var searchBy = $("#searchBy").val();
             var searchQuery = $("#searchQuery").val();
+            var searchGenre = $("#searchGenre").val();
 
             location.href="/games/admin/games/" + page + "?searchDateType=" + searchDateType
             + "&searchReleased=" + searchReleased
             + "&searchBy=" + searchBy
-            + "&searchQuery=" + searchQuery;
+            + "&searchQuery=" + searchQuery
+            + "&searchGenre=" + searchGenre;
         }
 
     </script>

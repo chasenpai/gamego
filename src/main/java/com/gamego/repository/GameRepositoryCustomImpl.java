@@ -1,9 +1,13 @@
 package com.gamego.repository;
 
 import com.gamego.constant.Released;
+import com.gamego.dto.GameDto;
 import com.gamego.dto.GameSearchDto;
+import com.gamego.dto.MainGameDto;
+import com.gamego.dto.QMainGameDto;
 import com.gamego.entity.Game;
 import com.gamego.entity.QGame;
+import com.gamego.entity.QGameImg;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -64,6 +68,13 @@ public class GameRepositoryCustomImpl implements GameRepositoryCustom {
         return null;
     }
 
+    private BooleanExpression searchByGenre(String searchGenre){
+        if(StringUtils.equals("전체", searchGenre)){
+            return null;
+        }
+        return QGame.game.genre.like("%" + searchGenre + "%");
+    }
+
     @Override
     public Page<Game> getAdminGamePage(GameSearchDto gameSearchDto, Pageable pageable) {
 
@@ -72,7 +83,8 @@ public class GameRepositoryCustomImpl implements GameRepositoryCustom {
                 .where(regDateAfter(gameSearchDto.getSearchDateType()), //조건을 지정해주는데, 콤마 = and 조건으로 인식한다
                         searchReleased(gameSearchDto.getSearchReleased()),
                         searchByLike(gameSearchDto.getSearchBy(),
-                                gameSearchDto.getSearchQuery()))
+                                gameSearchDto.getSearchQuery()),
+                        searchByGenre(gameSearchDto.getSearchGenre()))
                         .orderBy(QGame.game.id.desc())
                         .offset(pageable.getOffset()) //데이터를 가지고 올 시작 인덱스를 지정
                         .limit(pageable.getPageSize()) //한 번에 가지고 올 최대 개수를 지정
@@ -83,4 +95,42 @@ public class GameRepositoryCustomImpl implements GameRepositoryCustom {
 
         return new PageImpl<>(content, pageable, total);
     }
+
+
+
+
+    public BooleanExpression gameTitleLike(String searchQuery){ //메인 페이지 게임 검색
+        return StringUtils.isEmpty(searchQuery) ? null : QGame.game.gameTitle.like("%" + searchQuery + "%");
+    }
+
+    @Override
+    public Page<MainGameDto> getMainPage(GameSearchDto gameSearchDto, Pageable pageable) {
+
+        QGame game = QGame.game;
+        QGameImg gameImg =QGameImg.gameImg;
+
+        QueryResults<MainGameDto> results = queryFactory
+                .select(
+                        new QMainGameDto( //QueryProject 을 사용한 DTO 조회
+                        game.id,
+                        game.gameTitle,
+                        game.developer,
+                        game.genre,
+                        gameImg.imgUrl)
+                )
+                .from(gameImg)
+                .join(gameImg.game, game) //gameImg 와 game 을 내부 조인
+                .where(gameImg.repImgYn.eq("Y")) //게임 이미지 중 대표 이미지만 불러옴
+                .where(gameTitleLike(gameSearchDto.getSearchQuery()))
+                .orderBy(game.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<MainGameDto> content = results.getResults();
+        long total = results.getTotal();
+        return  new PageImpl<>(content, pageable, total);
+    }
+
+
 }

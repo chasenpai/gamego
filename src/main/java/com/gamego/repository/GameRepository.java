@@ -10,4 +10,6 @@ public interface GameRepository extends JpaRepository<Game, Long>, QuerydslPredi
 
     List<Game> findByGameTitle(String gameTitle);
 
+
+
 }

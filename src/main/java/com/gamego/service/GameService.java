@@ -3,6 +3,7 @@ package com.gamego.service;
 import com.gamego.dto.GameDto;
 import com.gamego.dto.GameImgDto;
 import com.gamego.dto.GameSearchDto;
+import com.gamego.dto.MainGameDto;
 import com.gamego.entity.Game;
 import com.gamego.entity.GameImg;
 import com.gamego.repository.GameImgRepository;
@@ -91,6 +92,12 @@ public class GameService {
     @Transactional(readOnly = true)
     public Page<Game> getAdminGamePage(GameSearchDto gameSearchDto, Pageable pageable){
         return gameRepository.getAdminGamePage(gameSearchDto, pageable);
+    }
+
+
+    @Transactional(readOnly = true)
+    public Page<MainGameDto> getMainPage(GameSearchDto gameSearchDto, Pageable pageable){
+        return gameRepository.getMainPage(gameSearchDto, pageable);
     }
 
 

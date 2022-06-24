@@ -49,6 +49,8 @@ public class Game extends BaseEntity {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Comment> commentList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<GameImg> gameImgList = new ArrayList<>();
 
     public void updateGame(GameDto gameDto){
         this.gameTitle =  gameDto.getGameTitle();

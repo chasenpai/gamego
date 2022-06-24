@@ -16,14 +16,17 @@ public class MainGameDto {
 
     private String genre;
 
+    private String platform;
+
     private String imgUrl;
 
     @QueryProjection
-    public MainGameDto(Long id, String gameTitle, String developer, String genre, String imgUrl){
+    public MainGameDto(Long id, String gameTitle, String developer, String genre, String platform, String imgUrl){
         this.id = id;
         this.gameTitle = gameTitle;
         this.developer = developer;
         this.genre = genre;
+        this.platform = platform;
         this.imgUrl = imgUrl;
     }
 

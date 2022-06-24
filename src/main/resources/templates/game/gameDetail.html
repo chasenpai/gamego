@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div id="wrap">
+
+        <div class="card border-dark mb-3" style="max-width: 1000px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img th:src="${game.gameImgDtoList[0].imgUrl}" class="img-fluid rounded-start" th:alt="${game.gameTitle}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h2 class="card-title" th:text="${game.gameTitle}"></h2>
+                        <ul class="list-group">
+                            <li class="list-group-item" th:text="|개발사 - ${game.developer}|"></li>
+                            <li class="list-group-item" th:text="|장르 - ${game.genre}|"></li>
+                            <li class="list-group-item" th:text="|플랫폼 - ${game.platform}|"></li>
+                            <li class="list-group-item" th:text="|출시일 - ${game.releaseDate}|"></li>
+                            <li class="list-group-item" th:text="${game.gameDetail}"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img th:src="${game.gameImgDtoList[1].imgUrl}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img th:src="${game.gameImgDtoList[2].imgUrl}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img th:src="${game.gameImgDtoList[3].imgUrl}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img th:src="${game.gameImgDtoList[4].imgUrl}" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<th:block layout:fragment="css">
+    <style>
+
+        #wrap{
+            max-width: 1000px;
+            margin: 100px auto;
+        }
+
+        .card-body{
+            height: 350px;
+            overflow-y: scroll;
+
+        }
+        .list-group{
+            margin-top: 20px;
+        }
+        .list-group-item{
+            border: 1px solid black;
+        }
+        .col-md-4 img{
+            min-width: 300px;
+            max-width: 300pxl
+            min-height: 380px;
+            max-height: 380px;
+        }
+
+
+
+    </style>
+</th:block>
+
+</body>
+</html>

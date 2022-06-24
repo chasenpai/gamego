@@ -88,7 +88,21 @@ public class GameController {
             return "game/gameForm";
         }
 
-        return "redirect:/";
+        return "redirect:/games/admin/games";
+    }
+
+    @PostMapping(value = "/admin/delete/{gameId}")
+    public String gameDelete( GameDto gameDto, @RequestParam("gameImgFile") List<MultipartFile> gameImgFileList,
+                               Model model){
+
+        try {
+            gameService.deleteGame(gameDto, gameImgFileList);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "게임 삭제 중 에러가 발생했습니다.");
+            return "game/gameForm";
+        }
+
+        return "redirect:/games/admin/games";
     }
 
 
@@ -101,6 +115,14 @@ public class GameController {
         model.addAttribute("maxPage", 5); //페이지 번호의 최대 개수 설정
 
         return "game/gameManage";
+    }
+
+
+    @GetMapping(value = "/all/view/{gameId}")
+    public String gameDetail(Model model, @PathVariable("gameId") Long gameId){
+        GameDto gameDto = gameService.gameDetail(gameId);
+        model.addAttribute("game", gameDto);
+        return "game/gameDetail";
     }
 
 

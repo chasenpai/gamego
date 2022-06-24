@@ -8,7 +8,104 @@
 </head>
 <body>
 <div layout:fragment="content">
-    메인페이지
+
+    <div id="wrap">
+
+        <input type="hidden" name="searchQuery" th:value="${gameSearchDto.searchQuery}">
+
+        <div th:if="${not #strings.isEmpty(gameSearchDto.searchQuery)}" class="center">
+            <p class="h3 font-weight-bold" th:text="${gameSearchDto.searchQuery} + '검색 결과'"></p>
+        </div>
+
+        <div id="margin" class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="game, status: ${games.getContent()}">
+                <a th:href="'/games/all/view/' +${game.id}">
+                    <div class="card border-dark mb-3">
+                        <img th:src="${game.imgUrl}" class="card-img-top" alt="${game.gameTitle}" >
+                        <div class="card-body">
+                            <h4 class="card-title" th:text="${game.gameTitle}"></h4><br>
+                            <p class="card-text" th:text="|${game.genre}/${game.developer}|"></p>
+                            <p class="card-text" th:text="${game.platform}"></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div th:with="start=${(games.number/maxPage)*maxPage + 1}, end=(${(games.totalPages == 0) ? 1 : (start + (maxPage - 1) < games.totalPages ? start + (maxPage - 1) : games.totalPages)})" >
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${games.number eq 0}?'disabled':''">
+                    <a th:href="@{'/' + '?searchQuery=' + ${gameSearchDto.searchQuery} + '&page=' + ${games.number-1}}" aria-label='Previous' class="page-link">
+                        <span aria-hidden='true'>Previous</span>
+                    </a>
+                </li>
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${games.number eq page-1}?'active':''">
+                    <a th:href="@{'/' +'?searchQuery=' + ${gameSearchDto.searchQuery} + '&page=' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+                </li>
+                <li class="page-item" th:classappend="${games.number+1 ge games.totalPages}?'disabled':''">
+                    <a th:href="@{'/' +'?searchQuery=' + ${gameSearchDto.searchQuery} + '&page=' + ${games.number+1}}" aria-label='Next' class="page-link">
+                        <span aria-hidden='true'>Next</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--<div th:with="start=${(games.number/maxPage) * maxPage + 1}, end=(${(games.totalPages == 0) ? 1 : (start + (maxPage - 1) < games.totalPages ? start + (maxPage - 1) : games.totalPages)})">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${games.number eq 0}?'disabled':''">
+                    <a th:href="@{'/' + '?searchQuery=' + ${gameSearchDto.searchQuery} + '$page=' + ${games.number-1}}" aria-label='Previous' class="page-link">이전</a>
+                </li>
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${games.number eq page-1}?'active':''">
+                    <a th:href="@{'/' + '?searchQuery=' + ${gameSearchDto.searchQuery} + '$page=' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+                </li>
+
+                <li class="page-item" th:classappend="${games.number+1 ge games.totalPages}?'disabled':''">
+                    <a th:href="@{'/' + '?searchQuery=' + ${gameSearchDto.searchQuery} + '$page=' + ${games.number+1}}" aria-label='Next' class="page-link">
+                        <span aria-hidden='true'>다음</span>
+                    </a>
+                </li>
+            </ul>
+        </div>-->
+    </div>
+
+    <th:block layout:fragment="css">
+        <style>
+
+        #wrap{
+            max-width: 1000px;
+            margin: 100px auto;
+        }
+        a:hover{
+            text-decoration:none;
+
+        }
+        #margin{
+            margin-bottom: 150px;
+        }
+        .card{
+            width: 300px;
+            height: 550px;
+        }
+
+        a{
+            text-decoration-line: none;
+            color: black;
+        }
+        .card{
+            margin-bottom: 20px;
+        }
+        .card-text{
+            text-align: right;
+            font-weight: 800;
+        }
+        img{
+            min-height: 380px;
+            max-height: 380px;
+        }
+
+
+
+    </style>
+    </th:block>
 </div>
 </body>
 </html>

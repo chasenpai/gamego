@@ -116,6 +116,7 @@ public class GameRepositoryCustomImpl implements GameRepositoryCustom {
                         game.gameTitle,
                         game.developer,
                         game.genre,
+                        game.platform,
                         gameImg.imgUrl)
                 )
                 .from(gameImg)

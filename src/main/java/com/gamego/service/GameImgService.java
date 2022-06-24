@@ -60,8 +60,11 @@ public class GameImgService {
             //게임 등록 때와 다르게 save 메소드를 사용하지 않아도 영속화된 엔티티의 데이터를 변경하는 것만으로도
             //변경 감지 기능이 작동하여 트랜젝션이 끝날때 update 쿼리를 실행합니다.
         }
+    }
 
-
+    public void deleteGameImg(Long gameImgId, MultipartFile gameImgFile) throws Exception{
+        GameImg savedGameImg = gameImgRepository.findById(gameImgId).orElseThrow(EntityNotFoundException::new);
+        fileService.deleteFile(gameImgLocation+ "/" + savedGameImg.getImgName());
     }
 
 

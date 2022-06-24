@@ -88,6 +88,21 @@ public class GameService {
         return game.getId();
     }
 
+    public Long deleteGame(GameDto gameDto, List<MultipartFile> gameImgFileList) throws Exception {
+
+        List<Long> gameImgIds = gameDto.getGameImgIds();
+
+        for(int i = 0; i < gameImgFileList.size(); i++){
+            gameImgService.deleteGameImg(gameImgIds.get(i), gameImgFileList.get(i));
+        }
+
+        Game game = gameRepository.findById(gameDto.getId()).orElseThrow(EntityNotFoundException::new);
+        gameRepository.deleteById(game.getId());
+
+        return game.getId();
+    }
+
+
 
     @Transactional(readOnly = true)
     public Page<Game> getAdminGamePage(GameSearchDto gameSearchDto, Pageable pageable){
@@ -99,6 +114,7 @@ public class GameService {
     public Page<MainGameDto> getMainPage(GameSearchDto gameSearchDto, Pageable pageable){
         return gameRepository.getMainPage(gameSearchDto, pageable);
     }
+
 
 
 }

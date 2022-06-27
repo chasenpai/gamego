@@ -1,5 +1,8 @@
 package com.gamego.service;
 
+import com.gamego.dto.GameDto;
+import com.gamego.dto.MemberDto;
+import com.gamego.entity.Game;
 import com.gamego.entity.Member;
 import com.gamego.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @Transactional //로직 처리중 에러 발생시 변경된 데이터를 로직 수행 이전 상태로 콜백해줌
@@ -39,6 +44,23 @@ public class MemberService implements UserDetailsService {
         }
     }
 
+//    @Transactional(readOnly = true)
+//    public MemberDto getUserInfo(String nickname){
+//
+//        Member member = memberRepository.findMemberInfo(nickname);
+//        MemberDto memberDto = MemberDto.of(member);
+//
+//        return memberDto;
+//    }
+
+    public String updateNickname(String nickname) throws Exception{
+        Member member = memberRepository.findByNickname(nickname);
+        member.setNickname(nickname);
+        validateDuplicateNickname(member);
+        member.updateNickname(nickname);
+        return nickname;
+    }
+
     //UserDetailService 의 메소드를 오버라이딩
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -55,4 +77,6 @@ public class MemberService implements UserDetailsService {
         //UserDetail 을 구현하고 있는 Member 객체를 반환해준다.
         //Member 객체를 생성하기 위해서 생성자로 회원 이메일, 비밀번호, role 파라미터를 넘겨준다
     }
+
+
 }

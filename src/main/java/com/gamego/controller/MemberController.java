@@ -4,15 +4,15 @@ import com.gamego.dto.MemberDto;
 import com.gamego.entity.Member;
 import com.gamego.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RequestMapping(value = "/members")
 @Controller
@@ -58,6 +58,28 @@ public class MemberController {
     public String loginError(Model model){
         model.addAttribute("loginError", "아이디 또는 비밀번호가 틀렸습니다.");
         return "/member/loginForm";
+    }
+
+//    @GetMapping(value = "/myPage")
+//    public String userInfo(Principal principal, Model model){
+//
+//        String nickname = principal.getName();
+//        MemberDto memberDto = memberService.getUserInfo(nickname);
+//        model.addAttribute("memberDto", memberDto);
+//
+//       return "/member/myPage";
+//    }
+
+    @PostMapping(value = "/nickname")
+    public String updateNickname(@RequestParam("nickname") String nickname, Model model){
+        try {
+            memberService.updateNickname(nickname);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage" , e.getMessage());
+            return "redirect:/members/myPage";
+        }
+
+        return "redirect:/";
     }
 
 }

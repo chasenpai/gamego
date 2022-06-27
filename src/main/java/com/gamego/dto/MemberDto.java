@@ -1,7 +1,10 @@
 package com.gamego.dto;
 
+import com.gamego.entity.Game;
+import com.gamego.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
+import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -22,5 +25,11 @@ public class MemberDto {
 
     @NotEmpty(message = "닉네임을 입력해주세요")
     private String nickname;
+
+    private static ModelMapper modelMapper = new ModelMapper();
+
+    public static MemberDto of(Member member){
+        return modelMapper.map(member, MemberDto.class);
+    }
 
 }

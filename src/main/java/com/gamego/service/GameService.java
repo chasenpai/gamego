@@ -115,6 +115,11 @@ public class GameService {
         return gameRepository.getMainPage(gameSearchDto, pageable);
     }
 
+    @Transactional(readOnly = true)
+    public Game findById(Long gameId){
+        Game game = gameRepository.findById(gameId).orElseThrow(EntityNotFoundException::new);
+        return  game;
+    }
 
 
 }

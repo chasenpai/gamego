@@ -1,13 +1,17 @@
 package com.gamego.controller;
 
+import com.gamego.dto.CommentDto;
 import com.gamego.dto.GameDto;
 import com.gamego.dto.GameSearchDto;
+import com.gamego.entity.Comment;
 import com.gamego.entity.Game;
+import com.gamego.service.CommentService;
 import com.gamego.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +29,8 @@ import java.util.Optional;
 public class GameController {
 
     private final GameService gameService;
+
+    private final CommentService commentService;
 
     @GetMapping(value = "/admin/new")
     public String gameForm(Model model){
@@ -91,8 +97,8 @@ public class GameController {
         return "redirect:/games/admin/games";
     }
 
-    @PostMapping(value = "/admin/delete/{gameId}")
-    public String gameDelete( GameDto gameDto, @RequestParam("gameImgFile") List<MultipartFile> gameImgFileList,
+    @PostMapping(value = "/admin/delete")
+    public String gameDelete(GameDto gameDto, @RequestParam("gameImgFile") List<MultipartFile> gameImgFileList,
                                Model model){
 
         try {
@@ -122,6 +128,9 @@ public class GameController {
     public String gameDetail(Model model, @PathVariable("gameId") Long gameId){
         GameDto gameDto = gameService.gameDetail(gameId);
         model.addAttribute("game", gameDto);
+        model.addAttribute("commentDto", new CommentDto());
+        List<Comment> comments = commentService.commentList(gameId);
+        model.addAttribute("comments", comments);
         return "game/gameDetail";
     }
 

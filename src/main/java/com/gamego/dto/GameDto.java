@@ -41,6 +41,8 @@ public class GameDto {
 
     private List<Long> gameImgIds = new ArrayList<>(); //게임 이미지 아이디를 저장하는 리스트로 수정 시에 이미지 아이디를 담음
 
+    private List<CommentDto> commentDtoList;
+
     private static ModelMapper modelMapper = new ModelMapper();
 
     public Game createGame(){

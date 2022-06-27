@@ -10,44 +10,38 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" sec:authorize="isAnonymous()">
                     <li class="nav-item">
-                        <a class="nav-link" sec:authorize="isAnonymous()" href="#">신작</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" sec:authorize="isAuthenticated()" href="#">신작</a>
+                        <a class="nav-link" href="#">카테고리</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" sec:authorize="isAnonymous()" href="#">랭킹</a>
+                        <a class="nav-link" href="#">리뷰</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" sec:authorize="isAuthenticated()" href="#">랭킹</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" sec:authorize="isAnonymous()" href="#">리뷰</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" sec:authorize="isAuthenticated()" href="#">리뷰</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                        <a class="nav-link" href="/games/admin/new">게임 등록</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                        <a class="nav-link" href="/games/admin/games">게임 관리</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="isAnonymous()">
                         <a class="nav-link" href="/members/login">로그인</a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                </ul>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" sec:authorize="isAuthenticated()">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">카테고리</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">리뷰</a>
+                    </li>
+                    <li class="nav-item" >
+                        <a class="nav-link" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" href="/games/admin/new">게임 등록</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" href="/games/admin/games">게임 관리</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="hasAnyAuthority('ROLE_USER')" href="/members/myPage">마이페이지</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/members/logout">로그아웃</a>
                     </li>
-                    <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_USER')">
-                        <a class="nav-link" href="#">마이페이지</a>
-                    </li>
-
-
                 </ul>
+
                 <form class="d-flex" th:action="@{/}" method="get">
                     <input name="searchQuery" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-light" type="submit">Search</button>

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Comment extends BaseTimeEntity {
+public class Comment extends BaseEntity {
 
     @Id
     @Column(name = "comment_id")
@@ -22,10 +22,22 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "game_id")
     private Game game;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Lob
     @Column(nullable = false)
     private String content;
 
-    private int hits;
+    private int rating;
+
+    public void updateRating(int rating){
+        this.rating = rating;
+    }
+
+    public void updateContent(String content){
+        this.content = content;
+    }
 
 }

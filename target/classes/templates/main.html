@@ -49,22 +49,6 @@
                 </li>
             </ul>
         </div>
-        <!--<div th:with="start=${(games.number/maxPage) * maxPage + 1}, end=(${(games.totalPages == 0) ? 1 : (start + (maxPage - 1) < games.totalPages ? start + (maxPage - 1) : games.totalPages)})">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" th:classappend="${games.number eq 0}?'disabled':''">
-                    <a th:href="@{'/' + '?searchQuery=' + ${gameSearchDto.searchQuery} + '$page=' + ${games.number-1}}" aria-label='Previous' class="page-link">이전</a>
-                </li>
-                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${games.number eq page-1}?'active':''">
-                    <a th:href="@{'/' + '?searchQuery=' + ${gameSearchDto.searchQuery} + '$page=' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
-                </li>
-
-                <li class="page-item" th:classappend="${games.number+1 ge games.totalPages}?'disabled':''">
-                    <a th:href="@{'/' + '?searchQuery=' + ${gameSearchDto.searchQuery} + '$page=' + ${games.number+1}}" aria-label='Next' class="page-link">
-                        <span aria-hidden='true'>다음</span>
-                    </a>
-                </li>
-            </ul>
-        </div>-->
     </div>
 
     <th:block layout:fragment="css">
@@ -101,7 +85,29 @@
             min-height: 380px;
             max-height: 380px;
         }
+        #rating{
+            float: right;
+        }
+        .page-link {
+  color: #999;
+  background-color: #000;
+  border-color: #444;
+}
 
+.page-item.active .page-link {
+ z-index: 1;
+ color: #ccc;
+ font-weight:bold;
+ background-color: #333;
+  border-color: #444;
+
+}
+
+.page-link:focus, .page-link:hover {
+  color: #ccc;
+  background-color: #222;
+  border-color: #444;
+}
 
 
     </style>

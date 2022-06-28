@@ -13,4 +13,6 @@ public interface GameRepositoryCustom {
     Page<Game> getAdminGamePage(GameSearchDto gameSearchDto, Pageable pageable);
 
     Page<MainGameDto> getMainPage(GameSearchDto gameSearchDto, Pageable pageable);
+
+    Page<MainGameDto> getCategory(GameSearchDto gameSearchDto, Pageable pageable);
 }

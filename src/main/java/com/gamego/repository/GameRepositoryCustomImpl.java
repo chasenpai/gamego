@@ -133,5 +133,34 @@ public class GameRepositoryCustomImpl implements GameRepositoryCustom {
         return  new PageImpl<>(content, pageable, total);
     }
 
+    @Override
+    public Page<MainGameDto> getCategory(GameSearchDto gameSearchDto, Pageable pageable) {
+        QGame game = QGame.game;
+        QGameImg gameImg =QGameImg.gameImg;
+
+        QueryResults<MainGameDto> results = queryFactory
+                .select(
+                        new QMainGameDto( //QueryProject 을 사용한 DTO 조회
+                                game.id,
+                                game.gameTitle,
+                                game.developer,
+                                game.genre,
+                                game.platform,
+                                gameImg.imgUrl)
+                )
+                .from(gameImg)
+                .join(gameImg.game, game) //gameImg 와 game 을 내부 조인
+                .where(gameImg.repImgYn.eq("Y")) //게임 이미지 중 대표 이미지만 불러옴
+                .where(searchByGenre(gameSearchDto.getSearchGenre()))
+                .orderBy(game.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<MainGameDto> content = results.getResults();
+        long total = results.getTotal();
+        return  new PageImpl<>(content, pageable, total);
+    }
+
 
 }

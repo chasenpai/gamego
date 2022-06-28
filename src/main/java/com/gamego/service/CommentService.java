@@ -41,9 +41,20 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public List<Comment> commentList(Long gameId){
+    public Page<Comment> commentList(Long gameId, Pageable pageable){
         Game game = gameService.findById(gameId);
-        return commentRepository.findByGameOrderByIdDesc(game);
+
+        return commentRepository.findByGameOrderByIdDesc(game, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Long getAvg(Long gameId){
+        return commentRepository.getAvg(gameId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> getAvgList(List<Long> gameId){
+        return commentRepository.getAvgList(gameId);
     }
 
 

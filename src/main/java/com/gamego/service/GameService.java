@@ -9,6 +9,7 @@ import com.gamego.entity.GameImg;
 import com.gamego.repository.GameImgRepository;
 import com.gamego.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -116,9 +117,19 @@ public class GameService {
     }
 
     @Transactional(readOnly = true)
+    public Page<MainGameDto> getCategory(GameSearchDto gameSearchDto, Pageable pageable){
+        return gameRepository.getCategory(gameSearchDto, pageable);
+    }
+
+    @Transactional(readOnly = true)
     public Game findById(Long gameId){
         Game game = gameRepository.findById(gameId).orElseThrow(EntityNotFoundException::new);
         return  game;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> findGameIds(){
+        return gameRepository.gameIds();
     }
 
 

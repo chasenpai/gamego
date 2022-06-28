@@ -28,14 +28,12 @@ public class CommentDto {
 
     private String regDate;
 
+    private double avg;
+
     private static ModelMapper modelMapper = new ModelMapper();
 
     public Comment createComment(){
         return modelMapper.map(this, Comment.class);
-    }
-
-    public CommentDto(){
-
     }
 
 

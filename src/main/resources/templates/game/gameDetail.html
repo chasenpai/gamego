@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 <head>
@@ -20,7 +21,9 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h2 class="card-title" th:text="${game.gameTitle}"></h2>
+                        <span style="font-size:250%;" class="card-title" th:text="${game.gameTitle}"></span>
+                        <button id="rating" class="btn btn-warning mt-3" th:text="|${avg}점|">점수</button>
+                        <button id="release" class="btn btn-success mt-3" th:text="${game.released == T(com.gamego.constant.Released).RELEASED} ? '출시' : '미출시'"></button>
                         <ul class="list-group">
                             <li class="list-group-item" th:text="|개발사 - ${game.developer}|"></li>
                             <li class="list-group-item" th:text="|장르 - ${game.genre}|"></li>
@@ -94,20 +97,20 @@
         </div>
         <br>
         <div th:each="comment : ${comments}">
-            <div class="card border-dark mb-3">
+            <div class="card border-dark mb-3" id="commentList">
                 <div class="card-header bg-light">
-                    <i class="fa fa-comment fa"></i>
+                    <i class="fa fa-comment fa" th:text="|작성자 - ${comment.createdBy}|"></i>
                 </div>
                 <form action="/comments/new" method="post" th:object="${commentDto}">
                     <div class="card-body">
                         <input type="hidden" id="gameId" name="gameId" th:value="${game.id}">
-                        <p th:text="|작성자 - ${comment.createdBy}|"></p>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <p th:text="|점수 -  ${comment.rating}|"></p>
-                                <p>리뷰</p>
+                                <span th:text="|점수 -  ${comment.rating}|"></span><span class="right" th:text="|작성일 - ${comment.regDate}|"></span>
+
+                            </li>
+                            <li class="list-group-item">
                                 <p th:text="${comment.content}"></p>
-                                <button type="submit" class="btn btn-dark mt-3" style="float:right;">등록</button>
                             </li>
                         </ul>
                     </div>
@@ -116,7 +119,25 @@
             </div>
         </div>
         <br>
-        <!--<div th:with="start=${(comments.number/maxPage) * maxPage + 1}, end=(${(comments.totalPages == 0) ? 1 : (start + (maxPage - 1)
+        <div th:with="start=${(comments.number/maxPage)*maxPage + 1}, end=(${(comments.totalPages == 0) ? 1 : (start + (maxPage - 1) < comments.totalPages ? start + (maxPage - 1) : comments.totalPages)})" >
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${comments.number eq 0}?'disabled':''">
+                    <a th:href="@{'/games/all/view/' + ${gameId} + '/' + ${comments.number - 1}}" aria-label='Previous' class="page-link">
+                        <span aria-hidden='true'>Previous</span>
+                    </a>
+                </li>
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${comments.number eq page-1}?'active':''">
+                    <a th:href="@{'/games/all/view/' + ${gameId} + '/' + ${page - 1}}" th:inline="text" class="page-link">[[${page}]]</a>
+                </li>
+                <li class="page-item" th:classappend="${comments.number+1 ge comments.totalPages}?'disabled':''">
+                    <a th:href="@{'/games/all/view/' + ${gameId} + '/' + ${comments.number + 1}}" aria-label='Next' class="page-link">
+                        <span aria-hidden='true'>Next</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--
+        <div th:with="start=${(comments.number/maxPage) * maxPage + 1}, end=(${(comments.totalPages == 0) ? 1 : (start + (maxPage - 1)
         < comments.totalPages ? start + (maxPage - 1) : comments.totalPages)})">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${comments.first}?'disabled'">
@@ -145,7 +166,7 @@
         var gameId = $("#gameId");
 
         function page(page){
-            location.href="/games/all/view/" + gameId + "/" + page ;
+            location.href="/games/all/view/${gameId}/" + page ;
         }
 
     </script>
@@ -185,7 +206,37 @@
         .form-control{
             border: 1px solid black;
         }
+        .right{
+            float: right;
+        }
+        #rating{
+            float: right;
+        }
+        #release{
+            float: right;
+            margin-right: 20px;
+        }
 
+        .page-link {
+  color: #999;
+  background-color: #000;
+  border-color: #444;
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #ccc;
+ font-weight:bold;
+ background-color: #333;
+  border-color: #444;
+
+}
+
+.page-link:focus, .page-link:hover {
+  color: #ccc;
+  background-color: #222;
+  border-color: #444;
+}
 
     </style>
 </th:block>

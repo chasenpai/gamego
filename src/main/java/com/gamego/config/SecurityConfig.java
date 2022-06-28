@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -41,12 +42,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/"); //로그아웃 완료 시 URL
 
         httpSecurity.authorizeRequests() //시큐리티 처리에 HttpServletRequest 를 이용함
-                .mvcMatchers("/", "/members/**", "/games/all/**", "/images/**").permitAll() //모든 사용자가 로그인없이 접근 가능
+                .mvcMatchers("/", "/members/**", "/games/all/**", "/images/**", "/categorys/**").permitAll() //모든 사용자가 로그인없이 접근 가능
                 .mvcMatchers("/games/admin/**").hasRole("ADMIN") //관리자만 접근가능
                 .anyRequest().authenticated(); //그 외 나머지는 모두 로그인 후 접근가능
 
         httpSecurity.exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint()); //접근 실패시 수행되는 핸들러
+
+        httpSecurity.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
     }
 

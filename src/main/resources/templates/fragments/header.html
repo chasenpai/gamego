@@ -11,22 +11,46 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" sec:authorize="isAnonymous()">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">카테고리</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">리뷰</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            카테고리
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=액션">액션</a></li>
+                            <li><a class="dropdown-item" href="#">RPG</a></li>
+                            <li><a class="dropdown-item" href="#">FPS</a></li>
+                            <li><a class="dropdown-item" href="#">오픈월드</a></li>
+                            <li><a class="dropdown-item" href="#">어드벤쳐</a></li>
+                            <li><a class="dropdown-item" href="#">시뮬레이션</a></li>
+                            <li><a class="dropdown-item" href="#">전략</a></li>
+                            <li><a class="dropdown-item" href="#">호러</a></li>
+                            <li><a class="dropdown-item" href="#">스포츠</a></li>
+                            <li><a class="dropdown-item" href="#">샌드박스</a></li>
+                            <li><a class="dropdown-item" href="#">캐쥬얼</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/members/login">로그인</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" sec:authorize="isAuthenticated()">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">카테고리</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">리뷰</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            카테고리
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="dropdown-item" href="#">액션</a></li>
+                            <li><a class="dropdown-item" href="#">RPG</a></li>
+                            <li><a class="dropdown-item" href="#">FPS</a></li>
+                            <li><a class="dropdown-item" href="#">오픈월드</a></li>
+                            <li><a class="dropdown-item" href="#">어드벤쳐</a></li>
+                            <li><a class="dropdown-item" href="#">시뮬레이션</a></li>
+                            <li><a class="dropdown-item" href="#">전략</a></li>
+                            <li><a class="dropdown-item" href="#">호러</a></li>
+                            <li><a class="dropdown-item" href="#">스포츠</a></li>
+                            <li><a class="dropdown-item" href="#">샌드박스</a></li>
+                            <li><a class="dropdown-item" href="#">캐쥬얼</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item" >
                         <a class="nav-link" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" href="/games/admin/new">게임 등록</a>

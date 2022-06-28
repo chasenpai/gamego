@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,13 +125,21 @@ public class GameController {
     }
 
 
-    @GetMapping(value = "/all/view/{gameId}")
-    public String gameDetail(Model model, @PathVariable("gameId") Long gameId){
+    @GetMapping(value = {"/all/view/{gameId}", "/all/view/{gameId}/{page}"})
+    public String gameDetail(Model model, @PathVariable("gameId") Long gameId, @PathVariable("page") Optional<Integer> page){
         GameDto gameDto = gameService.gameDetail(gameId);
         model.addAttribute("game", gameDto);
         model.addAttribute("commentDto", new CommentDto());
-        List<Comment> comments = commentService.commentList(gameId);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        Page<Comment> comments = commentService.commentList(gameId, pageable);
+        Long avg = commentService.getAvg(gameId);
+        if(avg == null){
+            avg = Long.valueOf(0);
+        }
         model.addAttribute("comments", comments);
+        model.addAttribute("maxPage", 5);
+        model.addAttribute("avg", avg);
+
         return "game/gameDetail";
     }
 

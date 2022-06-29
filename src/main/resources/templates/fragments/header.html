@@ -17,21 +17,25 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                             <li><a class="dropdown-item" href="/categorys?searchGenre=액션">액션</a></li>
-                            <li><a class="dropdown-item" href="#">RPG</a></li>
-                            <li><a class="dropdown-item" href="#">FPS</a></li>
-                            <li><a class="dropdown-item" href="#">오픈월드</a></li>
-                            <li><a class="dropdown-item" href="#">어드벤쳐</a></li>
-                            <li><a class="dropdown-item" href="#">시뮬레이션</a></li>
-                            <li><a class="dropdown-item" href="#">전략</a></li>
-                            <li><a class="dropdown-item" href="#">호러</a></li>
-                            <li><a class="dropdown-item" href="#">스포츠</a></li>
-                            <li><a class="dropdown-item" href="#">샌드박스</a></li>
-                            <li><a class="dropdown-item" href="#">캐쥬얼</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=RPG">RPG</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=FPS">FPS</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=오픈월드">오픈월드</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=어드벤쳐">어드벤쳐</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=시뮬레이션">시뮬레이션</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=전략">전략</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=호러">호러</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=스포츠">스포츠</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=샌드박스">샌드박스</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=캐쥬얼">캐쥬얼</a></li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reviews/list">리뷰</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/members/login">로그인</a>
                     </li>
+
                 </ul>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" sec:authorize="isAuthenticated()">
                     <li class="nav-item dropdown">
@@ -39,17 +43,17 @@
                             카테고리
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                            <li><a class="dropdown-item" href="#">액션</a></li>
-                            <li><a class="dropdown-item" href="#">RPG</a></li>
-                            <li><a class="dropdown-item" href="#">FPS</a></li>
-                            <li><a class="dropdown-item" href="#">오픈월드</a></li>
-                            <li><a class="dropdown-item" href="#">어드벤쳐</a></li>
-                            <li><a class="dropdown-item" href="#">시뮬레이션</a></li>
-                            <li><a class="dropdown-item" href="#">전략</a></li>
-                            <li><a class="dropdown-item" href="#">호러</a></li>
-                            <li><a class="dropdown-item" href="#">스포츠</a></li>
-                            <li><a class="dropdown-item" href="#">샌드박스</a></li>
-                            <li><a class="dropdown-item" href="#">캐쥬얼</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=액션">액션</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=RPG">RPG</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=FPS">FPS</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=오픈월드">오픈월드</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=어드벤쳐">어드벤쳐</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=시뮬레이션">시뮬레이션</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=전략">전략</a></li>ㄴ
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=호러">호러</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=스포츠">스포츠</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=샌드박스">샌드박스</a></li>
+                            <li><a class="dropdown-item" href="/categorys?searchGenre=캐쥬얼">캐쥬얼</a></li>
                         </ul>
                     </li>
                     <li class="nav-item" >
@@ -57,6 +61,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" href="/games/admin/games">게임 관리</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reviews/list">리뷰</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" sec:authorize="hasAnyAuthority('ROLE_USER')" href="/members/myPage">마이페이지</a>

@@ -126,7 +126,7 @@ public class GameController {
 
 
     @GetMapping(value = {"/all/view/{gameId}", "/all/view/{gameId}/{page}"})
-    public String gameDetail(Model model, @PathVariable("gameId") Long gameId, @PathVariable("page") Optional<Integer> page){
+    public String gameDetail(Model model, @PathVariable("gameId") Long gameId, @PathVariable("page") Optional<Integer> page, Principal principal){
         GameDto gameDto = gameService.gameDetail(gameId);
         model.addAttribute("game", gameDto);
         model.addAttribute("commentDto", new CommentDto());
@@ -139,7 +139,7 @@ public class GameController {
         model.addAttribute("comments", comments);
         model.addAttribute("maxPage", 5);
         model.addAttribute("avg", avg);
-
+        model.addAttribute("username", principal.getName());
         return "game/gameDetail";
     }
 

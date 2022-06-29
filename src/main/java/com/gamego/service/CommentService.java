@@ -58,4 +58,10 @@ public class CommentService {
     }
 
 
+    public Long deleteComment(Long commentId){
+        commentRepository.deleteById(commentId);
+        return commentId;
+    }
+
+
 }

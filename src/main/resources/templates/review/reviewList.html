@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<th:block layout:fragment="content">
+
+  <div id="wrap">
+      <div class="card border-dark mb-3">
+          <div class="card-header">
+              게시판
+          </div>
+          <div class="card-body">
+              <table class="table">
+                  <tr>
+                      <th scope="col">번호</th>
+                      <th scope="col">제목</th>
+                      <th scope="col">작성자</th>
+                      <th scope="col">작성일</th>
+                      <th scope="col">조회수</th>
+                  </tr>
+
+                  <tr th:each="review, status: ${reviews.getContent()}">
+                      <th scope="row" th:text="${review.id}"></th>
+                      <td>
+                          <a th:href="'/reviews/admin/' + ${review.id}" th:text="${review.title}"></a>
+                      </td>
+                      <td th:text="${review.createdBy}"></td>
+                      <td th:text="${review.regDate}"></td>
+                      <td th:text="${review.hits}"></td>
+                  </tr>
+
+              </table>
+          </div>
+      </div>
+  </div>
+
+
+</th:block>
+
+<th:block layout:fragment="css">
+    <style>
+
+        #wrap{
+            max-width: 1000px;
+            margin: 100px auto;
+        }
+
+
+    </style>
+</th:block>
+</body>
+</html>

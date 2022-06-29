@@ -20,9 +20,9 @@
                          th:alt="${game.gameTitle}">
                 </div>
                 <div class="col-md-8">
-                    <div class="card-body">
+                    <div class="card-body" id="gameInfo">
                         <span style="font-size:250%;" class="card-title" th:text="${game.gameTitle}"></span>
-                        <button id="rating" class="btn btn-warning mt-3" th:text="|${avg}점|">점수</button>
+                        <button id="ratingAvg" class="btn btn-warning mt-3" th:text="|${avg}점|">점수</button>
                         <button id="release" class="btn btn-success mt-3" th:text="${game.released == T(com.gamego.constant.Released).RELEASED} ? '출시' : '미출시'"></button>
                         <ul class="list-group">
                             <li class="list-group-item" th:text="|개발사 - ${game.developer}|"></li>
@@ -87,7 +87,7 @@
                             <input type="number" class="form-control" th:field="*{rating}" max="100"
                             style="width:100px; margin-bottom:30px;">
                             <p>리뷰</p>
-                            <textarea class="form-control" rows="6" th:field="*{content}"></textarea>
+                            <textarea class="form-control" rows="3" th:field="*{content}"></textarea>
                             <button type="submit" class="btn btn-dark mt-3" style="float:right;">등록</button>
                         </li>
                     </ul>
@@ -101,18 +101,23 @@
                 <div class="card-header bg-light">
                     <i class="fa fa-comment fa" th:text="|작성자 - ${comment.createdBy}|"></i>
                 </div>
-                <form action="/comments/new" method="post" th:object="${commentDto}">
-                    <div class="card-body">
+                <form action="/comments/delete" method="post" th:object="${commentDto}" name="deleteForm">
+                    <div class="card-body" id="commentBody">
                         <input type="hidden" id="gameId" name="gameId" th:value="${game.id}">
+                        <input type="hidden" id="commentId" name="commentId" th:value="${comment.id}">
+                        <input type="hidden" id="createdBy" name="createdBy" th:value="${comment.createdBy}">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <span th:text="|점수 -  ${comment.rating}|"></span><span class="right" th:text="|작성일 - ${comment.regDate}|"></span>
-
                             </li>
                             <li class="list-group-item">
                                 <p th:text="${comment.content}"></p>
                             </li>
                         </ul>
+                        <div th:if="${username == comment.createdBy}">
+                            <button type="submit" id="delete"  class="btn btn-dark mt-3" style="float:right;">삭제</button>
+
+                        </div>
                     </div>
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 </form>
@@ -136,24 +141,6 @@
                 </li>
             </ul>
         </div>
-        <!--
-        <div th:with="start=${(comments.number/maxPage) * maxPage + 1}, end=(${(comments.totalPages == 0) ? 1 : (start + (maxPage - 1)
-        < comments.totalPages ? start + (maxPage - 1) : comments.totalPages)})">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" th:classappend="${comments.first}?'disabled'">
-                    <a class="page-link" th:onclick="'javascript:page(' + ${comments.number - 1} + ')'">이전</a>
-                </li>
-                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${comments.number eq page-1}?'active':''">
-                    <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
-                </li>
-
-                <li class="page-item" th:classappend="${comments.last}?'disabled'">
-                    <a th:onclick="'javascript:page(' + ${comments.number + 1} + ')'" aria-label='Next' class="page-link">
-                        <span aria-hidden='true'>다음</span>
-                    </a>
-                </li>
-            </ul>
-        </div>-->
 
     </div>
 
@@ -162,11 +149,19 @@
 <th:block layout:fragment="script">
 
     <script th:inline="javascript">
+        var form = document.getElementById("deleteForm")
+        var createdBy = document.getElementById("createdBy");
+        var user = document.getElementById("user");
 
-        var gameId = $("#gameId");
+        function deleteComment(){
 
-        function page(page){
-            location.href="/games/all/view/${gameId}/" + page ;
+            if(createdBy != user){
+                alert("작성자만 삭제할 수 있습니다.");
+                return;
+            }else {
+                form.submit();
+            }
+
         }
 
     </script>
@@ -181,15 +176,20 @@
             margin: 100px auto;
         }
 
-        .card-body{
+        #gameInfo{
             height: 350px;
             overflow-y: scroll;
 
         }
         #comment{
-            height: 450px;
             overflow-y: scroll;
 
+        }
+        #commentList{
+            min-height: 250px;
+        }
+        #commentBody{
+            padding-top: 0px;
         }
         .list-group{
             margin-top: 20px;
@@ -209,12 +209,15 @@
         .right{
             float: right;
         }
-        #rating{
+        #ratingAvg{
             float: right;
         }
         #release{
             float: right;
             margin-right: 20px;
+        }
+        #delete{
+            margin-bottom: 15px;
         }
 
         .page-link {

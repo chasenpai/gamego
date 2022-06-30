@@ -10,46 +10,147 @@
 
 <th:block layout:fragment="content">
 
-  <div id="wrap">
-      <div class="card border-dark mb-3">
-          <div class="card-header">
-              게시판
-          </div>
-          <div class="card-body">
-              <table class="table">
-                  <tr>
-                      <th scope="col">번호</th>
-                      <th scope="col">제목</th>
-                      <th scope="col">작성자</th>
-                      <th scope="col">작성일</th>
-                      <th scope="col">조회수</th>
-                  </tr>
+    <div id="wrap">
+        <form th:action="@{'/reviews/all/list/' + ${reviews.number}}" method="get" th:object="${reviews}">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">리뷰번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">등록일</th>
+                    <th scope="col">조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="review, status: ${reviews.getContent()}">
+                    <th scope="row" th:text="${review.id}"></th>
+                    <td>
+                        <a th:href="'/reviews/all/view/' + ${review.id}" th:text="${review.title}"></a>
+                    </td>
+                    <td th:text="${review.createdBy}"></td>
+                    <td th:text="${review.regDate}"></td>
+                    <td th:text="${review.hits}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="button" onclick="location.href='/reviews/users/new'" class="btn btn-dark mt-3"
+                    style="float:right;">글쓰기
+            </button>
+            <br>
+            <br>
+            <br>
 
-                  <tr th:each="review, status: ${reviews.getContent()}">
-                      <th scope="row" th:text="${review.id}"></th>
-                      <td>
-                          <a th:href="'/reviews/admin/' + ${review.id}" th:text="${review.title}"></a>
-                      </td>
-                      <td th:text="${review.createdBy}"></td>
-                      <td th:text="${review.regDate}"></td>
-                      <td th:text="${review.hits}"></td>
-                  </tr>
+            <div style="clear: both;" th:with="start=${(reviews.number/maxPage) * maxPage + 1}, end=(${(reviews.totalPages == 0) ? 1 : (start + (maxPage - 1)
+        < reviews.totalPages ? start + (maxPage - 1) : reviews.totalPages)})">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${reviews.first}?'disabled'">
+                        <a class="page-link" th:onclick="'javascript:page(' + ${reviews.number - 1} + ')'">이전</a>
+                    </li>
+                    <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
+                        th:classappend="${reviews.number eq page-1}?'active':''">
+                        <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                    </li>
 
-              </table>
-          </div>
-      </div>
-  </div>
+                    <li class="page-item" th:classappend="${reviews.last}?'disabled'">
+                        <a th:onclick="'javascript:page(' + ${reviews.number + 1} + ')'" aria-label='Next'
+                           class="page-link">
+                            <span aria-hidden='true'>다음</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <div id="select" th:object="${reviewSearchDto}" class="rows">
+                <div class="cols" >
+                    <select style="width:150px; float:left;" class="form-select form-select-lg mb-3" th:field="*{searchBy}">
+                        <option value="title">제목</option>
+                        <option value="createdBy">작성자</option>
+                    </select>
+                </div>
+                <div class="cols">
+                    <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요" style="width: 200px;">
+                </div>
+                <div class="cols">
+                    <button id="searchBtn" type="submit" class="btn btn-dark">검색</button>
+                </div>
+            </div>
 
+        </form>
+    </div>
+
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+
+        $(document).ready(function(){
+            $("#searchBtn").on("click",function(e) {
+                e.preventDefault();
+                page(0);
+            });
+        });
+
+        function page(page){
+            var searchBy = $("#searchBy").val();
+            var searchQuery = $("#searchQuery").val();
+
+            location.href="/reviews/all/list/" + page + "?searchBy=" + searchBy
+            + "&searchQuery=" + searchQuery;
+        }
+
+
+
+        </script>
+    </th:block>
 
 </th:block>
 
 <th:block layout:fragment="css">
     <style>
-
+        select{
+            margin-right:10px;
+        }
         #wrap{
             max-width: 1000px;
             margin: 100px auto;
         }
+
+        .form-control{
+            height: 48px;
+            margin-right: 10px;
+        }
+        #searchBtn{
+            height: 48px;
+        }
+        .rows{
+            width: 440px;
+            margin: 0 auto;
+        }
+        .cols{
+            float: left;
+        }
+
+
+                    .page-link {
+          color: #999;
+          background-color: #000;
+          border-color: #444;
+        }
+
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #ccc;
+         font-weight:bold;
+         background-color: #333;
+          border-color: #444;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #ccc;
+          background-color: #222;
+          border-color: #444;
+        }
+
 
 
     </style>

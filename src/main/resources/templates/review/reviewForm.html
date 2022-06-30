@@ -8,15 +8,116 @@
 </head>
 <body>
 
-<th:block th:fragment="content">
+<th:block layout:fragment="content">
 
     <div id="wrap">
+        <form method="post" enctype="multipart/form-data" th:object="${reviewDto}">
 
+            <p class="h2">리뷰 등록</p>
+            <input type="hidden" th:field="*{id}">
+            <div class="input">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">제목</span>
+                    <input type="text" th:field="*{title}" class="form-control" placeholder="제목을 입력해주세요">
+                </div>
+                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></p>
+            </div>
+            <div class="input">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">내용</span>
+                    <textarea class="form-control" th:field="*{content}" rows="8"></textarea>
+                </div>
+                <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="error"></p>
+            </div>
+
+            <div th:if="${#lists.isEmpty(reviewDto.reviewImgDtoList)}">
+                <div th:each="num: ${#numbers.sequence(1,5)}">
+                    <label class="imgName" th:text="리뷰이미지 + ${num}"></label>
+                    <input id="upload1" type="file" class="form-control" name="reviewImgFile">
+                </div>
+            </div>
+
+            <div th:if="${not #lists.isEmpty(reviewDto.reviewImgDtoList)}">
+                <div class="form-group" th:each="reviewImgDto, status: ${reviewDto.reviewImgDtoList}">
+                    <label class="imgName"
+                           th:text="${not #strings.isEmpty(reviewImgDto.oriImgName)} ? ${reviewImgDto.oriImgName} : '리뷰이미지' + ${status.index+1}"></label>
+                    <input id="upload2" type="file" class="form-control" name="reviewImgFile">
+                    <input type="hidden" name="reviewImgIds" th:value="${reviewImgDto.id}">
+
+                </div>
+            </div>
+
+            <div th:if="${#strings.isEmpty(reviewDto.id)}">
+                <button id="btn1" th:formaction="@{/reviews/users/new}" type="submit" class="btn btn-dark">저장</button>
+            </div>
+
+            <div th:unless="${#strings.isEmpty(reviewDto.id)}">
+                <button id="btn3" th:formaction="@{'/reviews/users/delete'}" type="submit" class="btn btn-dark mt-3" >삭제</button>
+                <button id="btn2" th:formaction="@{'/reviews/users/update'}" type="submit" class="btn btn-dark mt-3" style="margin-right: 15px;">수정</button>
+            </div>
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
 
 
     </div>
 
 </th:block>
 
+<th:block layout:fragment="script">
+
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            var errorMessage = [[${errorMessage}]]; //등록 실패시 에러 출력
+            if(errorMessage != null){
+                alert(errorMessage);
+            }
+
+        });
+
+
+
+    </script>
+
+</th:block>
+
+<th:block layout:fragment="css">
+
+    <style>
+        #select{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .imgName{
+            margin-top: 20px;
+        }
+        #upload2{
+
+        }
+        .error {
+            color: red;
+        }
+        #wrap{
+            max-width: 750px;
+            margin: 75px auto;
+            height: 1100px;
+        }
+        #btn1{
+            margin-top: 20px;
+            float: right;
+        }
+        #btn2{
+            margin-top: 20px;
+            float: right;
+        }
+        #btn3{
+            margin-top: 20px;
+            float: right;
+        }
+        .input{
+            margin-top: 25px;
+        }
+    </style>
+</th:block>
 </body>
 </html>

@@ -69,7 +69,7 @@ public class GameController {
             GameDto gameDto = gameService.gameDetail(gameId);
             model.addAttribute("gameDto", gameDto);
         }catch (EntityNotFoundException e){
-            model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
+            model.addAttribute("errorMessage", "존재하지 않는 게임입니다.");
             model.addAttribute("gameDto", new GameDto());
             return "game/gameForm";
         }
@@ -120,7 +120,6 @@ public class GameController {
         model.addAttribute("games", games);
         model.addAttribute("gameSearchDto", gameSearchDto); //페이지 전환 시 기존 검색 조건을 유지하기 위해 뷰에 재전달
         model.addAttribute("maxPage", 5); //페이지 번호의 최대 개수 설정
-
         return "game/gameManage";
     }
 

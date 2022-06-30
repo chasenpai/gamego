@@ -89,8 +89,8 @@
             </div>
 
             <div th:unless="${#strings.isEmpty(gameDto.id)}">
-                <button id="btn2" th:formaction="@{'/games/admin/' + ${gameDto.id} }" type="submit" class="btn btn-primary">수정</button>
-                <button id="btn3" th:formaction="@{'/games/admin/delete'}" type="submit" class="btn btn-primary">삭제</button>
+                <button id="btn3" th:formaction="@{'/games/admin/delete'}" type="submit" class="btn btn-dark mt-3" >삭제</button>
+                <button id="btn2" th:formaction="@{'/games/admin/' + ${gameDto.id} }" type="submit" class="btn btn-dark mt-3" style="margin-right: 15px;">수정</button>
             </div>
 
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

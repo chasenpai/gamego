@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/"); //로그아웃 완료 시 URL
 
         httpSecurity.authorizeRequests() //시큐리티 처리에 HttpServletRequest 를 이용함
-                .mvcMatchers("/", "/members/**", "/games/all/**", "/images/**", "/categorys/**").permitAll() //모든 사용자가 로그인없이 접근 가능
+                .mvcMatchers("/", "/members/**", "/games/all/**", "/images/**", "/categorys/**", "/reviews/all/**").permitAll() //모든 사용자가 로그인없이 접근 가능
                 .mvcMatchers("/games/admin/**").hasRole("ADMIN") //관리자만 접근가능
                 .anyRequest().authenticated(); //그 외 나머지는 모두 로그인 후 접근가능
 

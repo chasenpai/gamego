@@ -25,7 +25,7 @@ public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
         if(StringUtils.equals("title", searchBy)){
             return QReview.review.title.like("%" + searchQuery + "%");
         }else if(StringUtils.equals("createdBy", searchBy)){
-            return QReview.review.title.like("%" + searchQuery + "%");
+            return QReview.review.createdBy.like("%" + searchQuery + "%");
         }
         return null;
     }

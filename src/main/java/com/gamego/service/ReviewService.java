@@ -94,13 +94,13 @@ public class ReviewService {
     }
 
 
-    @Transactional(readOnly = true) //트렌젝션을 읽기 전용으로 설정
+    @Transactional(readOnly = true)
     public ReviewDto reviewDetail(Long reviewId){
 
-        List<ReviewImg> reviewImgList = reviewImgRepository.findByReviewIdOrderByIdAsc(reviewId); //오름차순으로 게임 이미지 조회
+        List<ReviewImg> reviewImgList = reviewImgRepository.findByReviewIdOrderByIdAsc(reviewId);
         List<ReviewImgDto> reviewImgDtoList = new ArrayList<>();
 
-        for(ReviewImg reviewImg : reviewImgList){ //조회한 GameImg 엔티티를 GameImgDto 객체로 만들어 리스트에 저장
+        for(ReviewImg reviewImg : reviewImgList){
             ReviewImgDto reviewImgDto =ReviewImgDto.of(reviewImg);
             reviewImgDtoList.add(reviewImgDto);
         }
@@ -108,6 +108,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId).orElseThrow(EntityNotFoundException::new);
         ReviewDto reviewDto = ReviewDto.of(review);
         reviewDto.setReviewImgDtoList(reviewImgDtoList);
+        reviewRepository.increaseHits(reviewId);
 
         return reviewDto;
     }

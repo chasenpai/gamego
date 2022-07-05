@@ -42,9 +42,6 @@ public class Review extends BaseEntity{
         this.content = reviewDto.getContent();
     }
 
-    public void incHits(int hits){
-        this.hits = hits + 1;
-    }
 
 
 

@@ -1,0 +1,17 @@
+com\gamego\entity\QGameImg.class
+com\gamego\dto\QMainGameDto.class
+com\gamego\entity\QComment.class
+com\gamego\entity\QBaseTimeEntity.class
+com\gamego\dto\MainGameDto.class
+com\gamego\repository\GameRepositoryCustomImpl.class
+com\gamego\entity\QGame.class
+com\gamego\service\CommentService.class
+com\gamego\repository\CommentRepository.class
+com\gamego\entity\QMember.class
+com\gamego\entity\QReviewImg.class
+com\gamego\dto\CommentDto.class
+com\gamego\dto\QCommentDto.class
+com\gamego\entity\QBaseEntity.class
+com\gamego\repository\GameRepositoryCustom.class
+com\gamego\entity\QReview.class
+com\gamego\controller\GameController.class

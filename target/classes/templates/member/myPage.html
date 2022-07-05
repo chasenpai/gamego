@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+  <div id="wrap">
+    <form action="/members/nickname" method="post" th:object="${memberDto}">
+        <p>닉네임 변경하기</p>
+        <div class="mb-3">
+            <label for="exampleFormControlInput3" class="form-label">닉네임</label>
+            <input th:field="*{nickname}" name="nickname" type="text" class="form-control" id="exampleFormControlInput3" >
+            <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="error"></p>
+        </div>
+        <div>
+            <button type="submit" id="join" class="btn btn-dark">변경하기</button>
+        </div>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> <!-- CSRF 토큰 값 -->
+    </form>
+  </div>
+
+</div>
+
+<th:block layout:fragment="script">
+
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            var errorMessage = [[${errorMessage}]];
+            if(errorMessage != null){
+                alert(errorMessage);
+            }
+        });
+
+    </script>
+
+</th:block>
+
+</body>
+</html>

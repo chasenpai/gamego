@@ -135,10 +135,12 @@ public class GameController {
         if(avg == null){
             avg = Long.valueOf(0);
         }
+        if(principal != null){
+            model.addAttribute("username", principal.getName());
+        }
         model.addAttribute("comments", comments);
         model.addAttribute("maxPage", 5);
         model.addAttribute("avg", avg);
-        model.addAttribute("username", principal.getName());
         return "game/gameDetail";
     }
 

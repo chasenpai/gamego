@@ -128,7 +128,9 @@ public class ReviewController {
     public String reviewDetail(Model model, @PathVariable("reviewId") Long reviewId, Principal principal){
         ReviewDto reviewDto = reviewService.reviewDetail(reviewId);
         model.addAttribute("review", reviewDto);
-        model.addAttribute("username", principal.getName());
+        if(principal != null){
+            model.addAttribute("username", principal.getName());
+        }
 
         return "review/reviewDetail";
     }

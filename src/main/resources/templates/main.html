@@ -15,7 +15,7 @@
         <input type="hidden" name="searchQuery" th:value="${gameSearchDto.searchQuery}">
 
         <div th:if="${not #strings.isEmpty(gameSearchDto.searchQuery)}" class="center">
-            <p class="h3 font-weight-bold" th:text="${gameSearchDto.searchQuery} + '검색 결과'"></p>
+            <p class="h3 font-weight-bold" th:text="${gameSearchDto.searchQuery} + ' 검색 결과'"></p>
         </div>
 
         <div id="margin" class="row row-cols-1 row-cols-md-3 g-4">

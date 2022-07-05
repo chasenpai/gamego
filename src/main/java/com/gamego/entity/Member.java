@@ -48,7 +48,7 @@ public class Member extends BaseTimeEntity {
         String password = passwordEncoder.encode(memberDto.getPassword());
         member.setPassword(password);
         member.setNickname(memberDto.getNickname());
-        member.setRole(Role.ADMIN);
+        member.setRole(Role.USER);
         return member;
     }
 
